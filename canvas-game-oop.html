@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Game</title>
+  </head>
+  <body>
+    <canvas width="512" height="480" id="canvas"></canvas>
+
+    <script type="text/javascript">
+      function Hero(speed, xPosition, yPosition, image) {
+        this.speed = speed;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.image = image;
+      }
+
+      Hero.prototype.move = function(key){
+        if (key === 37 && this.xPosition <= 0) { // left
+          this.xPosition = 512;
+        } else if (key === 37) {
+          this.xPosition -= this.speed;
+        }
+        if (key === 39 && this.xPosition >= 500) { // right
+          this.xPosition = 0;
+        } else if (key === 39) {
+          this.xPosition += this.speed;
+        }
+        if (key === 38 && this.yPosition <= 0) { // up
+          this.yPosition = 460;
+        } else if (key === 38) {
+          this.yPosition -= this.speed;
+        }
+        if (key === 40 && this.yPosition >= 460) { // down
+          this.yPosition = 0;
+        } else if (key === 40) {
+          this.yPosition += this.speed;
+        }
+      }
+
+      function Enemy(speed, xPosition, yPosition, image) {
+        this.speed = speed;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.direction = "up";
+        this.image = image;
+        this.directions = ["up", "down", "left", "right", "up-left", "up-right", "down-left","down-right"];
+
+      }
+      Enemy.prototype.changeEnemyDirection = function() {
+        var randomNumber = Math.floor(Math.random() * this.directions.length);
+        this.direction = this.directions[randomNumber];
+      }
+
+      Enemy.prototype.moveEnemy = function() {
+        if (this.direction === "up") {
+          // move this up
+          if (this.yPosition <= 0) { // up
+            this.yPosition = 460;
+          } else {
+            this.yPosition -= this.speed;
+          }
+        }
+        else if (this.direction === "down") {
+          // move this down
+          if ( this.yPosition >= 460) { // down
+            this.yPosition = 0;
+          } else{
+            this.yPosition += this.speed;
+          }
+        }
+        else if (this.direction === "left") {
+          // move this left
+          if (this.xPosition <= 0) { // left
+            this.xPosition = 512;
+          } else{
+            this.xPosition -= this.speed;
+          }
+        }
+        else if (this.direction === "right"){
+          //move right
+          if (this.xPosition >= 500) { // right
+            this.xPosition = 0;
+          }
+          else{
+            this.xPosition += this.speed;
+          }
+        }
+        else if (this.direction === "up-left") {
+          //move up-left
+          if (this.xPosition <= 0) {
+            this.xPosition = 512;
+          }
+          else {
+            this.xPosition -= this.speed;
+          }
+          if (this.yPosition <= 0) {
+            this.yPosition = 460;
+          }
+          else {
+            this.yPosition -= this.speed;
+          }
+        }
+        else if (this.direction === "up-right") {
+          //move up-right
+          if (this.xPosition >= 500) {
+            this.xPosition = 0;
+          }
+          else {
+            this.xPosition += this.speed;
+          }
+          if (this.yPosition <= 0) {
+            this.yPosition = 460;
+          }
+          else {
+            this.yPosition -= this.speed;
+          }
+        }
+        else if (this.direction === "down-left") {
+          //move down-left
+          if (this.xPosition <= 0) {
+            this.xPosition = 512;
+          }
+          else {
+            this.xPosition -= this.speed;
+          }
+          if (this.yPosition >= 460) {
+            this.yPosition = 0;
+          }
+          else {
+            this.yPosition += this.speed;
+          }
+        }
+        else if (this.direction === "down-right") {
+          //move down-right
+          if (this.xPosition >= 500) {
+            this.xPosition = 0;
+          }
+          else {
+            this.xPosition += this.speed;
+          }
+          if (this.yPosition >= 460) {
+            this.yPosition = 0;
+          }
+          else {
+          this.yPosition += this.speed;
+          }
+        }
+      }
+
+      function Game(backgroundImage) {
+        this.backgroundImage = backgroundImage;
+        this.score = 0;
+        this.highScore = 0;
+        this.counter = 0;
+      }
+
+      Game.prototype.collisionDetection = function() {
+        if (!((hero.xPosition + 32 < monster.xPosition) || (monster.xPosition + 32 < hero.xPosition) || (hero.yPosition + 32 < monster.yPosition) || (monster.yPosition + 32 < hero.yPosition))) {
+          game.score++;
+          monster.xPosition = Math.floor(Math.random() * 499);
+          monster.yPosition = Math.floor(Math.random() * 459);
+          return false;
+        }
+        if (!((hero.xPosition + 32 < goblin1.xPosition) || (goblin1.xPosition + 32 < hero.xPosition) || (hero.yPosition + 32 < goblin1.yPosition) || (goblin1.yPosition + 32 < hero.yPosition))) {
+          return true;
+        }
+        if (!((hero.xPosition + 32 < goblin2.xPosition) || (goblin2.xPosition + 32 < hero.xPosition) || (hero.yPosition + 32 < goblin2.yPosition) || (goblin2.yPosition + 32 < hero.yPosition))) {
+          return true;
+        }
+      }
+      Game.prototype.resetGame = function(){
+        this.score = 0;
+        hero.xPosition = 240;
+        hero.yPosition = 256;
+        monster.xPosition = 150;
+        monster.yPosition = 150;
+        goblin1.xPosition = 50;
+        goblin1.yPosition = 50;
+        goblin2.xPosition = 400;
+        goblin2.yPosition = 400;
+        this.counter = 0;
+      }
+
+
+      var hero = new Hero(20, 240, 256, 'images/hero.png');
+      var monster = new Enemy(4, 150, 150, 'images/monster.png');
+      var goblin1 = new Enemy(2, 50, 50, 'images/goblin.png');
+      var goblin2 = new Enemy(2, 400, 400, 'images/goblin.png');
+
+      var game = new Game('images/background.png');
+
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var heroImage = new Image();
+      heroImage.src = hero.image;
+      var backgroundImage = new Image();
+      backgroundImage.src = game.backgroundImage;
+      var monsterImage = new Image();
+      monsterImage.src = monster.image;
+      var goblinImage1 = new Image();
+      goblinImage1.src = goblin1.image;
+      var goblinImage2 = new Image();
+      goblinImage2.src = goblin2.image;
+
+      window.addEventListener('keydown', function(e) {
+        var key = e.keyCode;
+        hero.move(key);
+        if(key === 32){
+          main();
+        }
+      });
+
+      function main() {
+        game.counter++;
+        ctx.drawImage(backgroundImage, 0 , 0);
+        ctx.font = "16px serif";
+        ctx.fillStyle  = "white";
+        ctx.fillText("Score: "+ game.score, 27, 43);
+
+        if (game.collisionDetection()) {
+          if (game.score > game.highScore) {
+            game.highScore = game.score;
+          }
+          game.resetGame();
+
+          ctx.fillText("High Score: " + game.highScore, 27, 63);
+          return;
+        }
+
+        ctx.drawImage(heroImage, hero.xPosition, hero.yPosition);
+        ctx.drawImage(monsterImage, monster.xPosition, monster.yPosition);
+        ctx.drawImage(goblinImage1, goblin1.xPosition, goblin1.yPosition);
+        ctx.drawImage(goblinImage2, goblin2.xPosition, goblin2.yPosition);
+
+        if (game.counter % 50 === 0) {
+           monster.changeEnemyDirection();
+           goblin1.changeEnemyDirection();
+           goblin2.changeEnemyDirection();
+        }
+        monster.moveEnemy();
+        goblin1.moveEnemy();
+        goblin2.moveEnemy();
+
+        requestAnimationFrame(main);
+      }
+      main();
+
+    </script>
+  </body>
+</html>

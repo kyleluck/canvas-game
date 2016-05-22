@@ -26,6 +26,7 @@ function Game(backgroundImage) {
   this.score = 0;
   this.highScore = 0;
   this.counter = 0;
+  this.gameOver = false;
 }
 
 Game.prototype.moveObject = function(player) {
@@ -132,9 +133,11 @@ Game.prototype.collisionDetection = function() {
     return false;
   }
   if (!((hero.xPosition + 32 < goblin1.xPosition) || (goblin1.xPosition + 32 < hero.xPosition) || (hero.yPosition + 32 < goblin1.yPosition) || (goblin1.yPosition + 32 < hero.yPosition))) {
+    game.gameOver = true;
     return true;
   }
   if (!((hero.xPosition + 32 < goblin2.xPosition) || (goblin2.xPosition + 32 < hero.xPosition) || (hero.yPosition + 32 < goblin2.yPosition) || (goblin2.yPosition + 32 < hero.yPosition))) {
+    game.gameOver = true;
     return true;
   }
 }
@@ -185,7 +188,9 @@ window.addEventListener('keydown', function(e) {
     hero.direction = 'down';
   }
   if(key === 32){
-    main();
+    if (game.gameOver) {
+      main();
+    }
   }
 });
 
@@ -202,7 +207,8 @@ function main() {
   ctx.fillText("Score: "+ game.score, 27, 43);
   ctx.fillText("High Score: " + game.highScore, 27, 63);
 
-  if (game.collisionDetection()) {
+  var gameIsOver = game.collisionDetection();
+  if (gameIsOver) {
     if (game.score > game.highScore) {
       game.highScore = game.score;
     }

@@ -30,7 +30,10 @@ function Game(backgroundImage) {
 }
 
 Game.prototype.moveObject = function(player) {
-  if (player.direction === "up") {
+  if (player.direction === "stay") {
+    player.direction = "stay";
+  }
+  else if (player.direction === "up") {
     // move this up
     if (player.yPosition <= 0) { // up
       player.yPosition = 460;
@@ -195,7 +198,7 @@ window.addEventListener('keydown', function(e) {
 });
 
 window.addEventListener('keyup', function() {
-  hero.state = 'stay';
+  hero.direction = 'stay';
 });
 
 function main() {

@@ -13,27 +13,20 @@
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.image = image;
+        this.states = ["up", "down", "left", "right"];
+        this.state = "stay";
       }
 
-      Hero.prototype.move = function(key){
-        if (key === 37 && this.xPosition <= 0) { // left
-          this.xPosition = 512;
-        } else if (key === 37) {
+      Hero.prototype.move = function(){
+        if (this.state === 'stay') {
+          //do nothing
+        } else if (this.state === 'left') {
           this.xPosition -= this.speed;
-        }
-        if (key === 39 && this.xPosition >= 500) { // right
-          this.xPosition = 0;
-        } else if (key === 39) {
+        } else if (this.state === 'right') {
           this.xPosition += this.speed;
-        }
-        if (key === 38 && this.yPosition <= 0) { // up
-          this.yPosition = 460;
-        } else if (key === 38) {
+        } else if (this.state === 'up') {
           this.yPosition -= this.speed;
-        }
-        if (key === 40 && this.yPosition >= 460) { // down
-          this.yPosition = 0;
-        } else if (key === 40) {
+        } else if (this.state === 'down') {
           this.yPosition += this.speed;
         }
       }
@@ -205,14 +198,27 @@
 
       window.addEventListener('keydown', function(e) {
         var key = e.keyCode;
-        hero.move(key);
+        if (key === 37) {
+          hero.state = 'left';
+        } else if (key === 39) {
+          hero.state = 'right';
+        } else if (key === 38) {
+          hero.state = 'up';
+        } else if (key === 40) {
+          hero.state = 'down';
+        }
         if(key === 32){
           main();
         }
       });
 
+      window.addEventListener('keyup', function() {
+        hero.state = 'stay';
+      });
+
       function main() {
         game.counter++;
+        hero.move();
         ctx.drawImage(backgroundImage, 0 , 0);
         ctx.font = "16px serif";
         ctx.fillStyle  = "white";

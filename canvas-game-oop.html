@@ -13,22 +13,8 @@
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.image = image;
-        this.states = ["up", "down", "left", "right"];
-        this.state = "stay";
-      }
-
-      Hero.prototype.move = function(){
-        if (this.state === 'stay') {
-          //do nothing
-        } else if (this.state === 'left') {
-          this.xPosition -= this.speed;
-        } else if (this.state === 'right') {
-          this.xPosition += this.speed;
-        } else if (this.state === 'up') {
-          this.yPosition -= this.speed;
-        } else if (this.state === 'down') {
-          this.yPosition += this.speed;
-        }
+        this.directions = ["up", "down", "left", "right"];
+        this.direction = "stay";
       }
 
       function Enemy(speed, xPosition, yPosition, image) {
@@ -45,107 +31,107 @@
         this.direction = this.directions[randomNumber];
       }
 
-      Enemy.prototype.moveEnemy = function() {
-        if (this.direction === "up") {
-          // move this up
-          if (this.yPosition <= 0) { // up
-            this.yPosition = 460;
-          } else {
-            this.yPosition -= this.speed;
-          }
-        }
-        else if (this.direction === "down") {
-          // move this down
-          if ( this.yPosition >= 460) { // down
-            this.yPosition = 0;
-          } else{
-            this.yPosition += this.speed;
-          }
-        }
-        else if (this.direction === "left") {
-          // move this left
-          if (this.xPosition <= 0) { // left
-            this.xPosition = 512;
-          } else{
-            this.xPosition -= this.speed;
-          }
-        }
-        else if (this.direction === "right"){
-          //move right
-          if (this.xPosition >= 500) { // right
-            this.xPosition = 0;
-          }
-          else{
-            this.xPosition += this.speed;
-          }
-        }
-        else if (this.direction === "up-left") {
-          //move up-left
-          if (this.xPosition <= 0) {
-            this.xPosition = 512;
-          }
-          else {
-            this.xPosition -= this.speed;
-          }
-          if (this.yPosition <= 0) {
-            this.yPosition = 460;
-          }
-          else {
-            this.yPosition -= this.speed;
-          }
-        }
-        else if (this.direction === "up-right") {
-          //move up-right
-          if (this.xPosition >= 500) {
-            this.xPosition = 0;
-          }
-          else {
-            this.xPosition += this.speed;
-          }
-          if (this.yPosition <= 0) {
-            this.yPosition = 460;
-          }
-          else {
-            this.yPosition -= this.speed;
-          }
-        }
-        else if (this.direction === "down-left") {
-          //move down-left
-          if (this.xPosition <= 0) {
-            this.xPosition = 512;
-          }
-          else {
-            this.xPosition -= this.speed;
-          }
-          if (this.yPosition >= 460) {
-            this.yPosition = 0;
-          }
-          else {
-            this.yPosition += this.speed;
-          }
-        }
-        else if (this.direction === "down-right") {
-          //move down-right
-          if (this.xPosition >= 500) {
-            this.xPosition = 0;
-          }
-          else {
-            this.xPosition += this.speed;
-          }
-          if (this.yPosition >= 460) {
-            this.yPosition = 0;
-          }
-          else {
-          this.yPosition += this.speed;
-          }
-        }
-      }
-
       function Game(backgroundImage) {
         this.backgroundImage = backgroundImage;
         this.score = 0;
         this.highScore = 0;
         this.counter = 0;
+      }
+
+      Game.prototype.moveObject = function(player) {
+        if (player.direction === "up") {
+          // move this up
+          if (player.yPosition <= 0) { // up
+            player.yPosition = 460;
+          } else {
+            player.yPosition -= player.speed;
+          }
+        }
+        else if (player.direction === "down") {
+          // move player down
+          if ( player.yPosition >= 460) { // down
+            player.yPosition = 0;
+          } else{
+            player.yPosition += player.speed;
+          }
+        }
+        else if (player.direction === "left") {
+          // move player left
+          if (player.xPosition <= 0) { // left
+            player.xPosition = 512;
+          } else{
+            player.xPosition -= player.speed;
+          }
+        }
+        else if (player.direction === "right"){
+          //move right
+          if (player.xPosition >= 500) { // right
+            player.xPosition = 0;
+          }
+          else{
+            player.xPosition += player.speed;
+          }
+        }
+        else if (player.direction === "up-left") {
+          //move up-left
+          if (player.xPosition <= 0) {
+            player.xPosition = 512;
+          }
+          else {
+            player.xPosition -= player.speed;
+          }
+          if (player.yPosition <= 0) {
+            player.yPosition = 460;
+          }
+          else {
+            player.yPosition -= player.speed;
+          }
+        }
+        else if (player.direction === "up-right") {
+          //move up-right
+          if (player.xPosition >= 500) {
+            player.xPosition = 0;
+          }
+          else {
+            player.xPosition += player.speed;
+          }
+          if (player.yPosition <= 0) {
+            player.yPosition = 460;
+          }
+          else {
+            player.yPosition -= player.speed;
+          }
+        }
+        else if (player.direction === "down-left") {
+          //move down-left
+          if (player.xPosition <= 0) {
+            player.xPosition = 512;
+          }
+          else {
+            player.xPosition -= player.speed;
+          }
+          if (player.yPosition >= 460) {
+            player.yPosition = 0;
+          }
+          else {
+            player.yPosition += player.speed;
+          }
+        }
+        else if (player.direction === "down-right") {
+          //move down-right
+          if (player.xPosition >= 500) {
+            player.xPosition = 0;
+          }
+          else {
+            player.xPosition += player.speed;
+          }
+          if (player.yPosition >= 460) {
+            player.yPosition = 0;
+          }
+          else {
+          player.yPosition += player.speed;
+          }
+        }
       }
 
       Game.prototype.collisionDetection = function() {
@@ -162,6 +148,7 @@
           return true;
         }
       }
+
       Game.prototype.resetGame = function(){
         this.score = 0;
         hero.xPosition = 240;
@@ -176,7 +163,7 @@
       }
 
 
-      var hero = new Hero(20, 240, 256, 'images/hero.png');
+      var hero = new Hero(5, 240, 256, 'images/hero.png');
       var monster = new Enemy(4, 150, 150, 'images/monster.png');
       var goblin1 = new Enemy(2, 50, 50, 'images/goblin.png');
       var goblin2 = new Enemy(2, 400, 400, 'images/goblin.png');
@@ -199,13 +186,13 @@
       window.addEventListener('keydown', function(e) {
         var key = e.keyCode;
         if (key === 37) {
-          hero.state = 'left';
+          hero.direction = 'left';
         } else if (key === 39) {
-          hero.state = 'right';
+          hero.direction = 'right';
         } else if (key === 38) {
-          hero.state = 'up';
+          hero.direction = 'up';
         } else if (key === 40) {
-          hero.state = 'down';
+          hero.direction = 'down';
         }
         if(key === 32){
           main();
@@ -218,7 +205,8 @@
 
       function main() {
         game.counter++;
-        hero.move();
+        //hero.move();
+        game.moveObject(hero);
         ctx.drawImage(backgroundImage, 0 , 0);
         ctx.font = "16px serif";
         ctx.fillStyle  = "white";
@@ -244,9 +232,10 @@
            goblin1.changeEnemyDirection();
            goblin2.changeEnemyDirection();
         }
-        monster.moveEnemy();
-        goblin1.moveEnemy();
-        goblin2.moveEnemy();
+
+        game.moveObject(monster);
+        game.moveObject(goblin1);
+        game.moveObject(goblin2);
 
         requestAnimationFrame(main);
       }

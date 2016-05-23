@@ -1,4 +1,4 @@
-function Hero(speed, xPosition, yPosition, image) {
+function Player(speed, xPosition, yPosition, image) {
   this.speed = speed;
   this.xPosition = xPosition;
   this.yPosition = yPosition;
@@ -7,15 +7,7 @@ function Hero(speed, xPosition, yPosition, image) {
   this.dirY = 0;
 }
 
-function Enemy(speed, xPosition, yPosition, image) {
-  this.speed = speed;
-  this.xPosition = xPosition;
-  this.yPosition = yPosition;
-  this.image = image;
-  this.dirX = 0;
-  this.dirY = 0;
-}
-Enemy.prototype.changeEnemyDirection = function() {
+Player.prototype.changeEnemyDirection = function() {
   this.dirX = Math.floor(Math.random() * 3) - 1;
   this.dirY = Math.floor(Math.random() * 3) - 1;
 }
@@ -76,10 +68,10 @@ Game.prototype.resetGame = function(){
   this.counter = 0;
 }
 
-var hero = new Hero(5, 240, 256, 'images/hero.png');
-var monster = new Enemy(4, 150, 150, 'images/monster.png');
-var goblin1 = new Enemy(2, 50, 50, 'images/goblin.png');
-var goblin2 = new Enemy(2, 400, 400, 'images/goblin.png');
+var hero = new Player(5, 240, 256, 'images/hero.png');
+var monster = new Player(4, 150, 150, 'images/monster.png');
+var goblin1 = new Player(2, 50, 50, 'images/goblin.png');
+var goblin2 = new Player(2, 400, 400, 'images/goblin.png');
 var game = new Game('images/background.png');
 
 var canvas = document.getElementById('canvas');

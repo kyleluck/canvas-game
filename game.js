@@ -3,22 +3,21 @@ function Hero(speed, xPosition, yPosition, image) {
   this.xPosition = xPosition;
   this.yPosition = yPosition;
   this.image = image;
-  this.directions = ["up", "down", "left", "right"];
-  this.direction = "stay";
+  this.dirX = 0;
+  this.dirY = 0;
 }
 
 function Enemy(speed, xPosition, yPosition, image) {
   this.speed = speed;
   this.xPosition = xPosition;
   this.yPosition = yPosition;
-  this.direction = "up";
   this.image = image;
-  this.directions = ["up", "down", "left", "right", "up-left", "up-right", "down-left","down-right"];
-
+  this.dirX = 0;
+  this.dirY = 0;
 }
 Enemy.prototype.changeEnemyDirection = function() {
-  var randomNumber = Math.floor(Math.random() * this.directions.length);
-  this.direction = this.directions[randomNumber];
+  this.dirX = Math.floor(Math.random() * 3) - 1;
+  this.dirY = Math.floor(Math.random() * 3) - 1;
 }
 
 function Game(backgroundImage) {
@@ -30,101 +29,19 @@ function Game(backgroundImage) {
 }
 
 Game.prototype.moveObject = function(player) {
-  if (player.direction === "stay") {
-    player.direction = "stay";
+  player.yPosition += player.dirY * player.speed;
+  player.xPosition += player.dirX * player.speed;
+  if (player.xPosition > 512) {
+    player.xPosition = 0;
   }
-  else if (player.direction === "up") {
-    // move this up
-    if (player.yPosition <= 0) { // up
-      player.yPosition = 460;
-    } else {
-      player.yPosition -= player.speed;
-    }
+  if (player.xPosition < 0) {
+    player.xPosition = 512;
   }
-  else if (player.direction === "down") {
-    // move player down
-    if ( player.yPosition >= 460) { // down
-      player.yPosition = 0;
-    } else{
-      player.yPosition += player.speed;
-    }
+  if (player.yPosition > 480) {
+    player.yPosition = 0;
   }
-  else if (player.direction === "left") {
-    // move player left
-    if (player.xPosition <= 0) { // left
-      player.xPosition = 512;
-    } else{
-      player.xPosition -= player.speed;
-    }
-  }
-  else if (player.direction === "right"){
-    //move right
-    if (player.xPosition >= 500) { // right
-      player.xPosition = 0;
-    }
-    else{
-      player.xPosition += player.speed;
-    }
-  }
-  else if (player.direction === "up-left") {
-    //move up-left
-    if (player.xPosition <= 0) {
-      player.xPosition = 512;
-    }
-    else {
-      player.xPosition -= player.speed;
-    }
-    if (player.yPosition <= 0) {
-      player.yPosition = 460;
-    }
-    else {
-      player.yPosition -= player.speed;
-    }
-  }
-  else if (player.direction === "up-right") {
-    //move up-right
-    if (player.xPosition >= 500) {
-      player.xPosition = 0;
-    }
-    else {
-      player.xPosition += player.speed;
-    }
-    if (player.yPosition <= 0) {
-      player.yPosition = 460;
-    }
-    else {
-      player.yPosition -= player.speed;
-    }
-  }
-  else if (player.direction === "down-left") {
-    //move down-left
-    if (player.xPosition <= 0) {
-      player.xPosition = 512;
-    }
-    else {
-      player.xPosition -= player.speed;
-    }
-    if (player.yPosition >= 460) {
-      player.yPosition = 0;
-    }
-    else {
-      player.yPosition += player.speed;
-    }
-  }
-  else if (player.direction === "down-right") {
-    //move down-right
-    if (player.xPosition >= 500) {
-      player.xPosition = 0;
-    }
-    else {
-      player.xPosition += player.speed;
-    }
-    if (player.yPosition >= 460) {
-      player.yPosition = 0;
-    }
-    else {
-    player.yPosition += player.speed;
-    }
+  if (player.yPosition < 0) {
+    player.yPosition = 480;
   }
 }
 
@@ -180,15 +97,14 @@ goblinImage2.src = goblin2.image;
 
 window.addEventListener('keydown', function(e) {
   var key = e.keyCode;
-
   if (key === 37) {
-    hero.direction = 'left';
+    hero.dirX = -1;
   } else if (key === 39) {
-    hero.direction = 'right';
+    hero.dirX = 1;
   } else if (key === 38) {
-    hero.direction = 'up';
+    hero.dirY = -1;
   } else if (key === 40) {
-    hero.direction = 'down';
+    hero.dirY = 1;
   }
   if(key === 32){
     if (game.gameOver) {
@@ -197,14 +113,16 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
-var mapOfKeysPressed = [];
-onkeydown = onkeyup = function(e){
-    mapOfKeysPressed[e.keyCode] = e.type == 'keydown';
-};
-
-window.addEventListener('keyup', function() {
-  if ((!mapOfKeysPressed[37] && !mapOfKeysPressed[38] && !mapOfKeysPressed[39] && !mapOfKeysPressed[40])) {
-    hero.direction = 'stay';
+window.addEventListener('keyup', function(event) {
+  var key = event.keyCode;
+  if (key === 37) { // left
+    hero.dirX = 0;
+  } else if (key === 39) { // right
+    hero.dirX = 0;
+  } else if (key === 38) { // up
+    hero.dirY = 0;
+  } else if (key === 40) { // down
+    hero.dirY = 0;
   }
 });
 

@@ -158,7 +158,6 @@ Game.prototype.resetGame = function(){
   this.counter = 0;
 }
 
-
 var hero = new Hero(5, 240, 256, 'images/hero.png');
 var monster = new Enemy(4, 150, 150, 'images/monster.png');
 var goblin1 = new Enemy(2, 50, 50, 'images/goblin.png');
@@ -181,6 +180,7 @@ goblinImage2.src = goblin2.image;
 
 window.addEventListener('keydown', function(e) {
   var key = e.keyCode;
+
   if (key === 37) {
     hero.direction = 'left';
   } else if (key === 39) {
@@ -198,8 +198,15 @@ window.addEventListener('keydown', function(e) {
 });
 
 window.addEventListener('keyup', function() {
-  hero.direction = 'stay';
+  if ((mapOfKeysPressed[37] || mapOfKeysPressed[38] || mapOfKeysPressed[39] || mapOfKeysPressed[40])) {
+    hero.direction = 'stay';
+  }
 });
+
+var mapOfKeysPressed = [];
+onkeydown = onkeyup = function(e){
+    mapOfKeysPressed[e.keyCode] = e.type == 'keydown';
+};
 
 function main() {
   game.counter++;

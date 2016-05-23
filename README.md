@@ -1,7 +1,7 @@
 # Canvas Game with HTML canvas
 
 # Game Instructions
-Move the hero with the arrow keys. Capture the monster (green) while avoiding the goblins (red).
+Move the hero (Steve Jobs) with the arrow keys. Capture the monster (Apple) while avoiding the goblins (Windows).
 
 Press the spacebar to start a new game.
 

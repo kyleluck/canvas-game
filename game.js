@@ -197,16 +197,18 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
-window.addEventListener('keyup', function() {
-  if ((mapOfKeysPressed[37] || mapOfKeysPressed[38] || mapOfKeysPressed[39] || mapOfKeysPressed[40])) {
-    hero.direction = 'stay';
-  }
-});
-
 var mapOfKeysPressed = [];
 onkeydown = onkeyup = function(e){
     mapOfKeysPressed[e.keyCode] = e.type == 'keydown';
 };
+
+window.addEventListener('keyup', function() {
+  if ((!mapOfKeysPressed[37] && !mapOfKeysPressed[38] && !mapOfKeysPressed[39] && !mapOfKeysPressed[40])) {
+    hero.direction = 'stay';
+  }
+});
+
+
 
 function main() {
   game.counter++;

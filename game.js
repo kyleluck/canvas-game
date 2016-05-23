@@ -68,10 +68,10 @@ Game.prototype.resetGame = function(){
   this.counter = 0;
 }
 
-var hero = new Player(5, 240, 256, 'images/steve.png');
-var monster = new Player(4, 150, 150, 'images/monster.png');
-var goblin1 = new Player(2, 50, 50, 'images/goblin.png');
-var goblin2 = new Player(2, 400, 400, 'images/goblin.png');
+var hero = new Player(5, 240, 256, 'images/hero.png');
+var monster = new Player(4, 150, 150, 'images/apple.png');
+var goblin1 = new Player(2, 50, 50, 'images/windows.png');
+var goblin2 = new Player(2, 400, 400, 'images/windows.png');
 var game = new Game('images/background.png');
 
 var canvas = document.getElementById('canvas');
@@ -146,7 +146,6 @@ function main() {
   } else {
     ctx.drawImage(heroImageLeft, hero.xPosition, hero.yPosition);
   }
-  //ctx.drawImage(heroImage, hero.xPosition, hero.yPosition);
   ctx.drawImage(monsterImage, monster.xPosition, monster.yPosition);
   ctx.drawImage(goblinImage1, goblin1.xPosition, goblin1.yPosition);
   ctx.drawImage(goblinImage2, goblin2.xPosition, goblin2.yPosition);

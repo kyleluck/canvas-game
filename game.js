@@ -63,6 +63,7 @@ Game.prototype.collisionDetection = function() {
 }
 
 Game.prototype.resetGame = function(){
+  this.gameOver = true;
   this.score = 0;
   hero.xPosition = 240;
   hero.yPosition = 256;
@@ -79,7 +80,6 @@ var hero = new Hero(5, 240, 256, 'images/hero.png');
 var monster = new Enemy(4, 150, 150, 'images/monster.png');
 var goblin1 = new Enemy(2, 50, 50, 'images/goblin.png');
 var goblin2 = new Enemy(2, 400, 400, 'images/goblin.png');
-
 var game = new Game('images/background.png');
 
 var canvas = document.getElementById('canvas');
@@ -126,8 +126,6 @@ window.addEventListener('keyup', function(event) {
   }
 });
 
-
-
 function main() {
   game.counter++;
   game.moveObject(hero);
@@ -142,10 +140,10 @@ function main() {
     if (game.score > game.highScore) {
       game.highScore = game.score;
     }
-    game.resetGame();
     ctx.drawImage(backgroundImage, 0 , 0);
     ctx.fillText("Score: "+ game.score, 35, 43);
     ctx.fillText("High Score: " + game.highScore, 35, 63);
+    game.resetGame();
     return;
   }
 

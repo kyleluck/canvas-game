@@ -216,8 +216,8 @@ function main() {
   ctx.drawImage(backgroundImage, 0 , 0);
   ctx.font = "16px serif";
   ctx.fillStyle  = "white";
-  ctx.fillText("Score: "+ game.score, 27, 43);
-  ctx.fillText("High Score: " + game.highScore, 27, 63);
+  ctx.fillText("Score: "+ game.score, 35, 43);
+  ctx.fillText("High Score: " + game.highScore, 35, 63);
 
   var gameIsOver = game.collisionDetection();
   if (gameIsOver) {
@@ -226,8 +226,8 @@ function main() {
     }
     game.resetGame();
     ctx.drawImage(backgroundImage, 0 , 0);
-    ctx.fillText("Score: "+ game.score, 27, 43);
-    ctx.fillText("High Score: " + game.highScore, 27, 63);
+    ctx.fillText("Score: "+ game.score, 35, 43);
+    ctx.fillText("High Score: " + game.highScore, 35, 63);
     return;
   }
 
